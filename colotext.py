@@ -7,14 +7,31 @@ import questionary
 colorama.init()
 print(f"{Fore.CYAN}Welcome to The Number Guessing Game!{Style.RESET_ALL}")
 
-number_to_guess = rd.randint(1, 100)  # The number the user has to guess
+difficulty = questionary.select(
+    "Choose a difficulty level:",
+    choices=[
+        "Easy (1-50)",
+        "Medium (1-100)",
+        "Hard (1-200)"
+    ]
+).ask()
+
+if difficulty == "Easy (1-50)":
+    number_to_guess = rd.randint(1, 50)  # The number the user has to guess
+    x = 50
+elif difficulty == "Medium (1-100)":
+    number_to_guess = rd.randint(1, 100)  # The number the user has to guess
+    x = 100
+else: 
+    number_to_guess = rd.randint(1, 200)
+    x = 200
 
 user_name = input(f"{Fore.GREEN}Please enter your name: {Style.RESET_ALL}") # The name of the user
 
 if not user_name:
     user_name = "Player"  # Fallback if user doesn't provide a name
 
-input(f"{Fore.CYAN}Hello, {user_name}! I have selected a number between 1 and 100. "
+input(f"{Fore.CYAN}Hello, {user_name}! The difficulty is {difficulty}. A number between 1 and {x} has been chosen. "
       f"Try to guess it! Press Enter to start the game.{Style.RESET_ALL}")
 
 while True:
@@ -30,7 +47,7 @@ while True:
         print(f"{Fore.GREEN}Congratulations, {user_name}! You guessed the number!{Style.RESET_ALL}")
 
         options = questionary.select(
-        "Choose a language:",
+        "Choose an option:",
             choices=[
             "Try again",
             "Quit"
@@ -39,11 +56,28 @@ while True:
 
 
         if options == "Try again":
-            number_to_guess = rd.randint(1, 100)  # Reset the number
+            difficulty = questionary.select(
+                "Choose a difficulty level:",
+                choices=[
+                    "Easy (1-50)",
+                    "Medium (1-100)",
+                    "Hard (1-200)"
+                ]
+            ).ask()
+
+            if difficulty == "Easy (1-50)":
+                number_to_guess = rd.randint(1, 50)  # The number the user has to guess
+                x = 50
+            elif difficulty == "Medium (1-100)":
+                number_to_guess = rd.randint(1, 100)  # The number the user has to guess
+                x = 100
+            else: 
+                number_to_guess = rd.randint(1, 200)
+                x = 200
             continue
         elif options == "Quit":
             options = questionary.select(
-            "Choose a language:",
+            "Choose an option:",
                 choices=[
                 "Cancel",
                 "Quit"
@@ -51,7 +85,7 @@ while True:
             ).ask()
 
             if options == "Cancel":
-                number_to_guess = rd.randint(1, 100)  # Reset the number
+                number_to_guess = rd.randint(1, x)  # Reset the number
                 continue
             elif options == "Quit":
                 print(f"{Fore.CYAN}Goodbye, {user_name}!{Style.RESET_ALL}")
